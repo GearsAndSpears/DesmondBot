@@ -155,8 +155,9 @@ public class FacingCrater extends LinearOpMode {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         detector.setupDetector(hardwareMap);
-        robot.liftArm.setMode(RUN_TO_POSITION);
 
+
+        robot.liftArm.setMode(RUN_TO_POSITION);
         robot.liftArm.setTargetPosition(0);
         robot.liftArm.setPower(0.5);
 

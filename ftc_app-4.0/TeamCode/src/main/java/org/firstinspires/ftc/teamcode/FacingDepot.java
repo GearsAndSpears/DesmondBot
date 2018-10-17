@@ -160,7 +160,6 @@ public class FacingDepot extends LinearOpMode {
         detector.setupDetector(hardwareMap);
 
         robot.liftArm.setMode(RUN_TO_POSITION);
-
         robot.liftArm.setTargetPosition(0);
         robot.liftArm.setPower(0.5);
 
