@@ -159,9 +159,9 @@ public class FacingDepotV2 extends LinearOpMode {
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-        robot.liftArm.setMode(RUN_TO_POSITION);
-        robot.liftArm.setTargetPosition(0);
-        robot.liftArm.setPower(0.5);
+//        robot.liftArm.setMode(RUN_TO_POSITION);
+//        robot.liftArm.setTargetPosition(0);
+//        robot.liftArm.setPower(0.5);
 
 
         waitForStart();
@@ -172,15 +172,15 @@ public class FacingDepotV2 extends LinearOpMode {
 
         //G&S: Insert Landing Code Here
 
-        robot.liftArm.setTargetPosition(6050);
-        robot.liftArm.setPower(0.5);
-
+//        robot.liftArm.setTargetPosition(6050);
+//        robot.liftArm.setPower(0.5);
+/*
         while(robot.liftArm.isBusy()) {
             robot.liftArm.setTargetPosition(6050);
             robot.liftArm.setPower(0.5);
             telemetry.addData("beep","boop");
         }
-
+*/
         robot.latch.setPosition(1.0);
 
         sleep(1000);
@@ -191,7 +191,7 @@ public class FacingDepotV2 extends LinearOpMode {
 
         //G&S: DROP FLAG
 
-        gyroDrive(DRIVE_SPEED,-70.0, -45);
+//        gyroDrive(DRIVE_SPEED,-70.0, -45);
 
 
         telemetry.addData("Path", "Complete");
