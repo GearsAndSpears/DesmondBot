@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -102,7 +103,7 @@ public class FacingDepotV2 extends LinearOpMode {
     private static final double     DRIVE_SPEED             = 0.75;     // Nominal speed for better accuracy.
     private static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
     private static final double     DROP_SPEED              = 0.3;
-    private static final double     SAMPLE_DISTANCE         = 10;
+    private static final double     SAMPLE_DISTANCE         = 15;
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     private static final double     P_TURN_COEFF            = 0.05;     // Larger is more responsive, but also less stable
@@ -125,7 +126,9 @@ public class FacingDepotV2 extends LinearOpMode {
         robot.init(hardwareMap);
             imu = hardwareMap.get(BNO055IMU.class, "imu");
             imu.initialize(parameters);
-
+        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.useDefaults();
+        detector.enable();
 
         // Ensure the robot it stationary, then reset the encoders and calibrate the gyro.
         robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -188,6 +191,8 @@ public class FacingDepotV2 extends LinearOpMode {
        //Sample
 
         sample();
+
+        detector.disable();
 
         //G&S: DROP FLAG
 
@@ -344,7 +349,7 @@ public class FacingDepotV2 extends LinearOpMode {
             return;
         }
 
-        gyroTurn(TURN_SPEED, -45);
+        gyroTurn(TURN_SPEED, -25);
 
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
@@ -352,7 +357,7 @@ public class FacingDepotV2 extends LinearOpMode {
             return;
         }
 
-        gyroTurn(TURN_SPEED, 45);
+        gyroTurn(TURN_SPEED, 25);
 
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
