@@ -104,6 +104,7 @@ public class FacingDepotV2 extends LinearOpMode {
     private static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
     private static final double     DROP_SPEED              = 0.3;
     private static final double     SAMPLE_DISTANCE         = 15;
+    private static final double     SAMPLE_ANGLE            = 25;
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     private static final double     P_TURN_COEFF            = 0.05;     // Larger is more responsive, but also less stable
@@ -350,22 +351,22 @@ public class FacingDepotV2 extends LinearOpMode {
             return;
         }
 
-        gyroTurn(TURN_SPEED, -25);
+        gyroTurn(TURN_SPEED, -SAMPLE_ANGLE);
 
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,-25);
+            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,-SAMPLE_ANGLE);
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE * -1, -25);
             return;
         }
 
-        gyroTurn(TURN_SPEED, 25);
+        gyroTurn(TURN_SPEED, SAMPLE_ANGLE);
 
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,25);
+            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,SAMPLE_ANGLE);
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE * -1, 25);
             return;
         }
