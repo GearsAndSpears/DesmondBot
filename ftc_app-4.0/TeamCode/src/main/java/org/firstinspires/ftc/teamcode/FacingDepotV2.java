@@ -128,6 +128,7 @@ public class FacingDepotV2 extends LinearOpMode {
             imu.initialize(parameters);
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
         detector.useDefaults();
+        detector.alignSize = 300;
         detector.enable();
 
         // Ensure the robot it stationary, then reset the encoders and calibrate the gyro.
@@ -351,6 +352,8 @@ public class FacingDepotV2 extends LinearOpMode {
 
         gyroTurn(TURN_SPEED, -25);
 
+        sleep(500);
+
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE * -1, 0);
@@ -358,6 +361,8 @@ public class FacingDepotV2 extends LinearOpMode {
         }
 
         gyroTurn(TURN_SPEED, 25);
+
+        sleep(500);
 
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
