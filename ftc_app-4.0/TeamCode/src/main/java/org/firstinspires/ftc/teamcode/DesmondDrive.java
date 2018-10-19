@@ -45,6 +45,9 @@ public class DesmondDrive extends LinearOpMode {
 
     HardwarePushbot robot = new HardwarePushbot();
 
+    private boolean latched = false;
+    private boolean aPressed = false;
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -97,12 +100,20 @@ public class DesmondDrive extends LinearOpMode {
                 robot.liftArm.setPower(0.0);
             }
 
-            if(gamepad2.a){
-                robot.latch.setPosition(0.0);
+            if(gamepad2.a && !aPressed){
+                latched = !latched;
+                aPressed = true;
             }
 
-            if(gamepad2.b){
+            if(!gamepad2.a){
+                aPressed = false;
+            }
+
+            if(latched){
                 robot.latch.setPosition(1.0);
+            }
+            else{
+                robot.latch.setPosition(0.0);
             }
 
             // Show the elapsed game time and wheel power.
