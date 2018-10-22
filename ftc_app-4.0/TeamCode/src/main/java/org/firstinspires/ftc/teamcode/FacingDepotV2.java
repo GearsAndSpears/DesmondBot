@@ -100,10 +100,10 @@ public class FacingDepotV2 extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // The can/should be tweaked to suite the specific robot drive train.
-    private static final double     DRIVE_SPEED             = 0.75;     // Nominal speed for better accuracy.
+    private static final double     DRIVE_SPEED             = 0.5;     // Nominal speed for better accuracy.
     private static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
     private static final double     DROP_SPEED              = 0.3;
-    private static final double     SAMPLE_DISTANCE         = 15;
+    private static final double     SAMPLE_DISTANCE         = 20;
     private static final double     SAMPLE_ANGLE            = 25;
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
@@ -164,9 +164,9 @@ public class FacingDepotV2 extends LinearOpMode {
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-//        robot.liftArm.setMode(RUN_TO_POSITION);
-//        robot.liftArm.setTargetPosition(0);
-//        robot.liftArm.setPower(0.5);
+        robot.liftArm.setMode(RUN_TO_POSITION);
+        robot.liftArm.setTargetPosition(0);
+        robot.liftArm.setPower(0.75);
 
 
         waitForStart();
@@ -177,15 +177,15 @@ public class FacingDepotV2 extends LinearOpMode {
 
         //G&S: Insert Landing Code Here
 
-//        robot.liftArm.setTargetPosition(6050);
-//        robot.liftArm.setPower(0.5);
-/*
+        robot.liftArm.setTargetPosition(3300);
+        robot.liftArm.setPower(0.5);
+
         while(robot.liftArm.isBusy()) {
-            robot.liftArm.setTargetPosition(6050);
+            robot.liftArm.setTargetPosition(3300);
             robot.liftArm.setPower(0.5);
             telemetry.addData("beep","boop");
         }
-*/
+
         robot.latch.setPosition(1.0);
 
         sleep(1000);
@@ -194,11 +194,17 @@ public class FacingDepotV2 extends LinearOpMode {
 
         sample();
 
+
         detector.disable();
-
-        //G&S: DROP FLAG
-
-//        gyroDrive(DRIVE_SPEED,-70.0, -45);
+        gyroTurn(TURN_SPEED, 25);
+        gyroHold(TURN_SPEED, 25, .5);
+        gyroDrive(DRIVE_SPEED, 8, 25);
+        gyroTurn(TURN_SPEED, 45);
+        gyroHold(TURN_SPEED, 45, .5);
+        gyroDrive(DRIVE_SPEED, 10, 45);
+        gyroTurn(TURN_SPEED, 135);
+        gyroHold(TURN_SPEED, 135, .5);
+        gyroDrive(DRIVE_SPEED, 25, 135);
 
 
         telemetry.addData("Path", "Complete");
@@ -345,6 +351,7 @@ public class FacingDepotV2 extends LinearOpMode {
 
     private void sample(){
         gyroTurn(TURN_SPEED, 0);
+        gyroDrive(DRIVE_SPEED, 4, 0);
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
             gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
@@ -356,8 +363,8 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,-SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, -25);
+            gyroDrive(DRIVE_SPEED, 30,-SAMPLE_ANGLE);
+            gyroDrive(DRIVE_SPEED, -30, -25);
             return;
         }
 
@@ -366,8 +373,8 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 25);
+            gyroDrive(DRIVE_SPEED, 30,SAMPLE_ANGLE);
+            gyroDrive(DRIVE_SPEED, -30, 25);
             return;
         }
 
