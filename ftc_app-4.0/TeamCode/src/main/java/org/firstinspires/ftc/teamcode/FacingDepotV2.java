@@ -347,7 +347,7 @@ public class FacingDepotV2 extends LinearOpMode {
         gyroTurn(TURN_SPEED, 0);
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE * -1, 0);
+            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
             return;
         }
 
@@ -357,7 +357,7 @@ public class FacingDepotV2 extends LinearOpMode {
 
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,-SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE * -1, -25);
+            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, -25);
             return;
         }
 
@@ -367,7 +367,7 @@ public class FacingDepotV2 extends LinearOpMode {
 
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE * -1, 25);
+            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 25);
             return;
         }
 
