@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class DesmondDriveSolo extends LinearOpMode {
 
-    HardwarePushbot robot = new HardwarePushbot();
+    HardwareDesmondBot robot = new HardwareDesmondBot();
 
     private boolean latched = false;
     private boolean aPressed = false;

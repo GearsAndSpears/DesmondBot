@@ -30,12 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
@@ -43,7 +38,7 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class DesmondDrive extends LinearOpMode {
 
-    HardwarePushbot robot = new HardwarePushbot();
+    HardwareDesmondBot robot = new HardwareDesmondBot();
 
     private boolean latched = false;
     private boolean aPressed = false;

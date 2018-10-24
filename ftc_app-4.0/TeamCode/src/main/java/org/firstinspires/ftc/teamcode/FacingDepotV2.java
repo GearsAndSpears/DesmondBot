@@ -45,8 +45,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.Locale;
 
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
-
 
 /**
  * This file illustrates the concept of driving a path based on Gyro heading and encoder counts.
@@ -89,7 +87,7 @@ public class FacingDepotV2 extends LinearOpMode {
     private ElapsedTime      runtime  = new ElapsedTime();
     GoldAlignDetector detector = new GoldAlignDetector();
 
-    private HardwarePushbot robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+    private HardwareDesmondBot robot   = new HardwareDesmondBot();   // Use a Pushbot's hardware
     private BNO055IMU imu;                    // Additional Gyro device
 
     private static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: TETRIX Motor Encoder
