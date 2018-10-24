@@ -207,9 +207,22 @@ public class FacingCraterV2 extends LinearOpMode {
 
         sample();
         detector.disable();
+
+        //set up for first motion
         gyroTurn(TURN_SPEED, 0);
         gyroHold(TURN_SPEED, 0, .5);
-        gyroDrive(DRIVE_SPEED, 5, 0);
+        gyroDrive(DRIVE_SPEED, 11, 0);
+
+        //turn left and drive towards wall
+        gyroTurn(TURN_SPEED, 90);
+        gyroHold(TURN_SPEED, 90, .5);
+        gyroDrive(DRIVE_SPEED, 47, 90);
+
+        //back into crater
+        gyroTurn(TURN_SPEED, 135);
+        gyroHold(TURN_SPEED, 135, .5);
+        gyroDrive(DRIVE_SPEED, -35, 135);
+
 
 
 
