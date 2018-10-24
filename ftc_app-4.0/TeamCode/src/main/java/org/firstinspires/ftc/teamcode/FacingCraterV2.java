@@ -357,9 +357,13 @@ public class FacingCraterV2 extends LinearOpMode {
     private void sample(){
         gyroTurn(TURN_SPEED, -SAMPLE_ANGLE);
 
+        sleep(500);
+
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, 25,-SAMPLE_ANGLE);
            // gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
+
+            telemetry.addData("Gold", "Right");
 
             return;
         }
@@ -371,6 +375,9 @@ public class FacingCraterV2 extends LinearOpMode {
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, 35,SAMPLE_ANGLE);
            // gyroDrive(DRIVE_SPEED, -30, -25);
+
+            telemetry.addData("Gold", "Left");
+
             return;
         }
 
@@ -381,6 +388,10 @@ public class FacingCraterV2 extends LinearOpMode {
         if(detector.getAligned()){
             gyroDrive(DRIVE_SPEED, 35,0);
            // gyroDrive(DRIVE_SPEED, -30, 25);
+
+            telemetry.addData("Gold", "Center");
+
+
             return;
         }
 
