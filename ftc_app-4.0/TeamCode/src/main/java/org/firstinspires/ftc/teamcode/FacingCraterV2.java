@@ -81,9 +81,9 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="FacingDepot V2", group="Pushbot")
+@Autonomous(name="FacingCrater V2", group="Pushbot")
 //@Disabled
-public class FacingDepotV2 extends LinearOpMode {
+public class FacingCraterV2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime      runtime  = new ElapsedTime();
@@ -128,6 +128,7 @@ public class FacingDepotV2 extends LinearOpMode {
             imu = hardwareMap.get(BNO055IMU.class, "imu");
             imu.initialize(parameters);
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.areaScoringMethod = detector.areaScoringMethod.PERFECT_AREA;
         detector.useDefaults();
         detector.alignSize = 300;
         detector.enable();
@@ -207,10 +208,8 @@ public class FacingDepotV2 extends LinearOpMode {
         detector.disable();
         gyroTurn(TURN_SPEED, 0);
         gyroHold(TURN_SPEED, 0, .5);
-        gyroDrive(DRIVE_SPEED, 11, 0);
-        gyroTurn(TURN_SPEED, 75);
-        gyroHold(TURN_SPEED, 75, .5);
-        gyroDrive(DRIVE_SPEED, 45, 75);
+        gyroDrive(DRIVE_SPEED, 5, 0);
+
 
 
         telemetry.addData("Path", "Complete");
@@ -357,8 +356,9 @@ public class FacingDepotV2 extends LinearOpMode {
 
     private void sample(){
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
-            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
+            gyroDrive(DRIVE_SPEED, 25,0);
+           // gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
+
             return;
         }
 
@@ -367,8 +367,8 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 30,-SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -30, -25);
+            gyroDrive(DRIVE_SPEED, 35,-SAMPLE_ANGLE);
+           // gyroDrive(DRIVE_SPEED, -30, -25);
             return;
         }
 
@@ -377,8 +377,8 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 30,SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -30, 25);
+            gyroDrive(DRIVE_SPEED, 35,SAMPLE_ANGLE);
+           // gyroDrive(DRIVE_SPEED, -30, 25);
             return;
         }
 
