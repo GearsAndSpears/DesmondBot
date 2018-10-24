@@ -328,7 +328,7 @@ public class FacingCraterV2 extends LinearOpMode {
     }
 
     /**
-     *  Method to obtain & hold a heading for a finite amount of time
+     *  Method to obtain & hold a heading for a finite amount of tim
      *  Move will stop once the requested time has elapsed
      *
      * @param speed      Desired speed of turn.
