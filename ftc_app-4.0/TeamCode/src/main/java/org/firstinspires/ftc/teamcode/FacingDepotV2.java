@@ -210,7 +210,7 @@ public class FacingDepotV2 extends LinearOpMode {
         gyroDrive(DRIVE_SPEED, 11, 0);
         gyroTurn(TURN_SPEED, 75);
         gyroHold(TURN_SPEED, 75, .5);
-        gyroDrive(DRIVE_SPEED, 37, 75);
+        gyroDrive(DRIVE_SPEED, 35, 75);
         gyroTurn(TURN_SPEED, 135);
         gyroHold(TURN_SPEED, 135, .5);
         gyroDrive(DRIVE_SPEED, 15, 135);
