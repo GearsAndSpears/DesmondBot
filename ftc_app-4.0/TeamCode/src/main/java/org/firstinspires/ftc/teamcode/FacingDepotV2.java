@@ -104,7 +104,7 @@ public class FacingDepotV2 extends LinearOpMode {
     private static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
     private static final double     DROP_SPEED              = 0.3;
     private static final double     CENTER_SAMPLE_DISTANCE  = 20;
-    private static final double     SIDE_SAMPLE_DISTANCE    = 20;
+    private static final double     SIDE_SAMPLE_DISTANCE    = 22;
     private static final double     SAMPLE_ANGLE            = 25;
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
