@@ -103,7 +103,8 @@ public class FacingDepotV2 extends LinearOpMode {
     private static final double     DRIVE_SPEED             = 0.5;     // Nominal speed for better accuracy.
     private static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
     private static final double     DROP_SPEED              = 0.3;
-    private static final double     SAMPLE_DISTANCE         = 20;
+    private static final double     CENTER_SAMPLE_DISTANCE  = 20;
+    private static final double     SIDE_SAMPLE_DISTANCE    = 22;
     private static final double     SAMPLE_ANGLE            = 25;
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
@@ -210,7 +211,7 @@ public class FacingDepotV2 extends LinearOpMode {
         gyroDrive(DRIVE_SPEED, 11, 0);
         gyroTurn(TURN_SPEED, 75);
         gyroHold(TURN_SPEED, 75, .5);
-        gyroDrive(DRIVE_SPEED, 37, 75);
+        gyroDrive(DRIVE_SPEED, 35, 75);
         gyroTurn(TURN_SPEED, 135);
         gyroHold(TURN_SPEED, 135, .5);
         gyroDrive(DRIVE_SPEED, 15, 135);
@@ -359,9 +360,12 @@ public class FacingDepotV2 extends LinearOpMode {
     }
 
     private void sample(){
+
+        sleep(500);
+
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
-            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
+            gyroDrive(DRIVE_SPEED, CENTER_SAMPLE_DISTANCE,0);
+            gyroDrive(DRIVE_SPEED, -CENTER_SAMPLE_DISTANCE, 0);
             return;
         }
 
@@ -370,8 +374,8 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 30,-SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -30, -25);
+            gyroDrive(DRIVE_SPEED, SIDE_SAMPLE_DISTANCE,-SAMPLE_ANGLE);
+            gyroDrive(DRIVE_SPEED, -SIDE_SAMPLE_DISTANCE, -SAMPLE_ANGLE);
             return;
         }
 
@@ -380,8 +384,8 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 30,SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -30, 25);
+            gyroDrive(DRIVE_SPEED, SIDE_SAMPLE_DISTANCE,SAMPLE_ANGLE);
+            gyroDrive(DRIVE_SPEED, -SIDE_SAMPLE_DISTANCE, SAMPLE_ANGLE);
             return;
         }
 
