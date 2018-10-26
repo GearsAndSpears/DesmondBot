@@ -45,6 +45,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.Locale;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+
 
 /**
  * This file illustrates the concept of driving a path based on Gyro heading and encoder counts.
@@ -256,8 +258,8 @@ public class FacingDepotV2 extends LinearOpMode {
             robot.leftDrive.setTargetPosition(newLeftTarget);
             robot.rightDrive.setTargetPosition(newRightTarget);
 
-            robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftDrive.setMode(RUN_TO_POSITION);
+            robot.rightDrive.setMode(RUN_TO_POSITION);
 
             // start motion.
             speed = Range.clip(Math.abs(speed), 0.0, 1.0);
@@ -475,7 +477,7 @@ public class FacingDepotV2 extends LinearOpMode {
             robot.liftArm.setTargetPosition(newTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.liftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftArm.setMode(RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();

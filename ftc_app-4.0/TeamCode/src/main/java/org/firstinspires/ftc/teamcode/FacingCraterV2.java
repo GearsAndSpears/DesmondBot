@@ -89,7 +89,7 @@ public class FacingCraterV2 extends LinearOpMode {
     private ElapsedTime      runtime  = new ElapsedTime();
     GoldAlignDetector detector = new GoldAlignDetector();
 
-    private HardwarePushbot robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+    private HardwareDesmondBot robot   = new HardwareDesmondBot();   // Use a Pushbot's hardware
     private BNO055IMU imu;                    // Additional Gyro device
 
     private static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: TETRIX Motor Encoder
