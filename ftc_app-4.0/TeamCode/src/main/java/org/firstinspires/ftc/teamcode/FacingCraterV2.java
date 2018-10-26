@@ -45,6 +45,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.Locale;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+
 
 /**
  * This file illustrates the concept of driving a path based on Gyro heading and encoder counts.
@@ -79,15 +81,15 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="FacingDepot V2", group="Pushbot")
+@Autonomous(name="FacingCrater V2", group="Pushbot")
 //@Disabled
-public class FacingDepotV2 extends LinearOpMode {
+public class FacingCraterV2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime      runtime  = new ElapsedTime();
     GoldAlignDetector detector = new GoldAlignDetector();
 
-    private HardwareDesmondBot robot   = new HardwareDesmondBot();   // Use a Pushbot's hardware
+    private HardwarePushbot robot   = new HardwarePushbot();   // Use a Pushbot's hardware
     private BNO055IMU imu;                    // Additional Gyro device
 
     private static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: TETRIX Motor Encoder
@@ -126,6 +128,7 @@ public class FacingDepotV2 extends LinearOpMode {
             imu = hardwareMap.get(BNO055IMU.class, "imu");
             imu.initialize(parameters);
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.areaScoringMethod = detector.areaScoringMethod.PERFECT_AREA;
         detector.useDefaults();
         detector.alignSize = 300;
         detector.enable();
@@ -205,13 +208,8 @@ public class FacingDepotV2 extends LinearOpMode {
         detector.disable();
         gyroTurn(TURN_SPEED, 0);
         gyroHold(TURN_SPEED, 0, .5);
-        gyroDrive(DRIVE_SPEED, 11, 0);
-        gyroTurn(TURN_SPEED, 75);
-        gyroHold(TURN_SPEED, 75, .5);
-        gyroDrive(DRIVE_SPEED, 37, 75);
-        gyroTurn(TURN_SPEED, 135);
-        gyroHold(TURN_SPEED, 135, .5);
-        gyroDrive(DRIVE_SPEED, 15, 135);
+        gyroDrive(DRIVE_SPEED, 5, 0);
+
 
 
         telemetry.addData("Path", "Complete");
@@ -330,7 +328,7 @@ public class FacingDepotV2 extends LinearOpMode {
     }
 
     /**
-     *  Method to obtain & hold a heading for a finite amount of time
+     *  Method to obtain & hold a heading for a finite amount of tim
      *  Move will stop once the requested time has elapsed
      *
      * @param speed      Desired speed of turn.
@@ -357,19 +355,12 @@ public class FacingDepotV2 extends LinearOpMode {
     }
 
     private void sample(){
-        if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
-            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
-            return;
-        }
-
         gyroTurn(TURN_SPEED, -SAMPLE_ANGLE);
 
-        sleep(500);
-
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 30,-SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -30, -25);
+            gyroDrive(DRIVE_SPEED, 25,-SAMPLE_ANGLE);
+           // gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
+
             return;
         }
 
@@ -378,8 +369,18 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 30,SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -30, 25);
+            gyroDrive(DRIVE_SPEED, 35,SAMPLE_ANGLE);
+           // gyroDrive(DRIVE_SPEED, -30, -25);
+            return;
+        }
+
+        gyroTurn(TURN_SPEED, 0);
+
+        sleep(500);
+
+        if(detector.getAligned()){
+            gyroDrive(DRIVE_SPEED, 35,0);
+           // gyroDrive(DRIVE_SPEED, -30, 25);
             return;
         }
 
