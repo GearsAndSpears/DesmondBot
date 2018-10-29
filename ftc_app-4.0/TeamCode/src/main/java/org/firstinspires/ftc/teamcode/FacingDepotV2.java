@@ -89,7 +89,7 @@ public class FacingDepotV2 extends LinearOpMode {
     private ElapsedTime      runtime  = new ElapsedTime();
     GoldAlignDetector detector = new GoldAlignDetector();
 
-    private HardwarePushbot robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+    private HardwareDesmondBot robot   = new HardwareDesmondBot();   // Use a Pushbot's hardware
     private BNO055IMU imu;                    // Additional Gyro device
 
     private static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: TETRIX Motor Encoder
@@ -103,7 +103,8 @@ public class FacingDepotV2 extends LinearOpMode {
     private static final double     DRIVE_SPEED             = 0.5;     // Nominal speed for better accuracy.
     private static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
     private static final double     DROP_SPEED              = 0.3;
-    private static final double     SAMPLE_DISTANCE         = 20;
+    private static final double     CENTER_SAMPLE_DISTANCE  = 20;
+    private static final double     SIDE_SAMPLE_DISTANCE    = 22;
     private static final double     SAMPLE_ANGLE            = 25;
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
@@ -258,8 +259,8 @@ public class FacingDepotV2 extends LinearOpMode {
             robot.leftDrive.setTargetPosition(newLeftTarget);
             robot.rightDrive.setTargetPosition(newRightTarget);
 
-            robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftDrive.setMode(RUN_TO_POSITION);
+            robot.rightDrive.setMode(RUN_TO_POSITION);
 
             // start motion.
             speed = Range.clip(Math.abs(speed), 0.0, 1.0);
@@ -359,9 +360,12 @@ public class FacingDepotV2 extends LinearOpMode {
     }
 
     private void sample(){
+
+        sleep(500);
+
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, SAMPLE_DISTANCE,0);
-            gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
+            gyroDrive(DRIVE_SPEED, CENTER_SAMPLE_DISTANCE,0);
+            gyroDrive(DRIVE_SPEED, -CENTER_SAMPLE_DISTANCE, 0);
             return;
         }
 
@@ -370,8 +374,8 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 30,-SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -30, -25);
+            gyroDrive(DRIVE_SPEED, SIDE_SAMPLE_DISTANCE,-SAMPLE_ANGLE);
+            gyroDrive(DRIVE_SPEED, -SIDE_SAMPLE_DISTANCE, -SAMPLE_ANGLE);
             return;
         }
 
@@ -380,8 +384,8 @@ public class FacingDepotV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 30,SAMPLE_ANGLE);
-            gyroDrive(DRIVE_SPEED, -30, 25);
+            gyroDrive(DRIVE_SPEED, SIDE_SAMPLE_DISTANCE,SAMPLE_ANGLE);
+            gyroDrive(DRIVE_SPEED, -SIDE_SAMPLE_DISTANCE, SAMPLE_ANGLE);
             return;
         }
 
@@ -477,7 +481,7 @@ public class FacingDepotV2 extends LinearOpMode {
             robot.liftArm.setTargetPosition(newTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.liftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftArm.setMode(RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();

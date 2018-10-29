@@ -30,23 +30,23 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 
 
 @TeleOp(name="Desmond Drive", group="Driver")
 //@Disabled
 public class DesmondDrive extends LinearOpMode {
 
-    HardwarePushbot robot = new HardwarePushbot();
+    HardwareDesmondBot robot = new HardwareDesmondBot();
 
     private boolean latched = false;
     private boolean aPressed = false;
+    private boolean lbPressed = false;
+    private boolean hanging = false;
 
     @Override
     public void runOpMode() {
@@ -114,6 +114,24 @@ public class DesmondDrive extends LinearOpMode {
             }
             else{
                 robot.latch.setPosition(0.0);
+            }
+
+            if(gamepad2.left_bumper && !lbPressed){
+                hanging = !hanging;
+                lbPressed = true;
+            }
+
+            if(!gamepad2.left_bumper){
+                lbPressed = false;
+            }
+
+            if(hanging){
+                robot.liftArm.setMode(RUN_TO_POSITION);
+                robot.liftArm.setTargetPosition(0);
+                robot.liftArm.setPower(0.75);
+            }
+            else{
+                robot.liftArm.setMode(RUN_USING_ENCODER);
             }
 
             // Show the elapsed game time and wheel power.

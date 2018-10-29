@@ -89,7 +89,7 @@ public class FacingCraterV2 extends LinearOpMode {
     private ElapsedTime      runtime  = new ElapsedTime();
     GoldAlignDetector detector = new GoldAlignDetector();
 
-    private HardwarePushbot robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+    private HardwareDesmondBot robot   = new HardwareDesmondBot();   // Use a Pushbot's hardware
     private BNO055IMU imu;                    // Additional Gyro device
 
     private static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: TETRIX Motor Encoder
@@ -103,7 +103,8 @@ public class FacingCraterV2 extends LinearOpMode {
     private static final double     DRIVE_SPEED             = 0.5;     // Nominal speed for better accuracy.
     private static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
     private static final double     DROP_SPEED              = 0.3;
-    private static final double     SAMPLE_DISTANCE         = 20;
+    private static final double     CENTER_SAMPLE_DISTANCE  = 20;
+    private static final double     SIDE_SAMPLE_DISTANCE    = 22;
     private static final double     SAMPLE_ANGLE            = 25;
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
@@ -206,9 +207,22 @@ public class FacingCraterV2 extends LinearOpMode {
 
         sample();
         detector.disable();
+
+        //set up for first motion
         gyroTurn(TURN_SPEED, 0);
         gyroHold(TURN_SPEED, 0, .5);
-        gyroDrive(DRIVE_SPEED, 5, 0);
+        gyroDrive(DRIVE_SPEED, 11, 0);
+
+        //turn left and drive towards wall
+        gyroTurn(TURN_SPEED, 90);
+        gyroHold(TURN_SPEED, 90, .5);
+        gyroDrive(DRIVE_SPEED, 47, 90);
+
+        //back into crater
+        gyroTurn(TURN_SPEED, 135);
+        gyroHold(TURN_SPEED, 135, .5);
+        gyroDrive(DRIVE_SPEED, -35, 135);
+
 
 
 
@@ -354,30 +368,26 @@ public class FacingCraterV2 extends LinearOpMode {
         robot.rightDrive.setPower(0);
     }
 
+
     private void sample(){
-        gyroTurn(TURN_SPEED, -SAMPLE_ANGLE);
-
-        sleep(500);
-
-        if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 25,-SAMPLE_ANGLE);
-           // gyroDrive(DRIVE_SPEED, -SAMPLE_DISTANCE, 0);
-
-            telemetry.addData("Gold", "Right");
-
-            return;
-        }
 
         gyroTurn(TURN_SPEED, SAMPLE_ANGLE);
 
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 35,SAMPLE_ANGLE);
-           // gyroDrive(DRIVE_SPEED, -30, -25);
+            gyroDrive(DRIVE_SPEED, SIDE_SAMPLE_DISTANCE,SAMPLE_ANGLE);
+            gyroDrive(DRIVE_SPEED, -SIDE_SAMPLE_DISTANCE, SAMPLE_ANGLE);
+            return;
+        }
 
-            telemetry.addData("Gold", "Left");
+        gyroTurn(TURN_SPEED, -SAMPLE_ANGLE);
 
+        sleep(500);
+
+        if(detector.getAligned()){
+            gyroDrive(DRIVE_SPEED, SIDE_SAMPLE_DISTANCE,-SAMPLE_ANGLE);
+            gyroDrive(DRIVE_SPEED, -SIDE_SAMPLE_DISTANCE, -SAMPLE_ANGLE);
             return;
         }
 
@@ -386,12 +396,8 @@ public class FacingCraterV2 extends LinearOpMode {
         sleep(500);
 
         if(detector.getAligned()){
-            gyroDrive(DRIVE_SPEED, 35,0);
-           // gyroDrive(DRIVE_SPEED, -30, 25);
-
-            telemetry.addData("Gold", "Center");
-
-
+            gyroDrive(DRIVE_SPEED, CENTER_SAMPLE_DISTANCE,0);
+            gyroDrive(DRIVE_SPEED, -CENTER_SAMPLE_DISTANCE, 0);
             return;
         }
 
