@@ -103,9 +103,6 @@ public class HardwareDesmondBot
         liftArm.setPower(0);
         manipArm.setPower(0);
 
-        frontServo.setPower(0.5);
-        backServo.setPower(0.5);
-
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
