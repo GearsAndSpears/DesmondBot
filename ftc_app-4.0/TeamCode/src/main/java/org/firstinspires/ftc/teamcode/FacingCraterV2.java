@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.hardware.camera2.CameraDevice;
+
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.Dogeforia;
@@ -265,9 +267,12 @@ public class FacingCraterV2 extends LinearOpMode {
         gyroHold(TURN_SPEED, 90, .5);
         gyroDrive(DRIVE_SPEED, 47, 90);
 
-        //back into crater
+        //face depot and claim
         gyroTurn(TURN_SPEED, 135);
         gyroHold(TURN_SPEED, 135, .5);
+
+
+        //back into crater
         gyroDrive(DRIVE_SPEED, -35, 135);
 
 

@@ -38,6 +38,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -215,10 +216,6 @@ public class FacingDepotV2 extends LinearOpMode {
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-        robot.liftArm.setMode(RUN_TO_POSITION);
-        robot.liftArm.setTargetPosition(0);
-        robot.liftArm.setPower(0.75);
-
 
         waitForStart();
 
@@ -226,7 +223,12 @@ public class FacingDepotV2 extends LinearOpMode {
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turn
 
-        //G&S: Insert Landing Code Here
+        //G&S: Landing Code Here
+        robot.liftArm.setMode(RUN_TO_POSITION);
+        robot.liftArm.setTargetPosition(0);
+        robot.liftArm.setPower(0.75);
+
+        robot.hangLatch.setPosition(1.0);
 
         robot.liftArm.setTargetPosition(3300);
         robot.liftArm.setPower(0.5);
@@ -256,16 +258,27 @@ public class FacingDepotV2 extends LinearOpMode {
 
         sample();
         detector.disable();
+
+        //set up first motion
         gyroTurn(TURN_SPEED, 0);
         gyroHold(TURN_SPEED, 0, .5);
         gyroDrive(DRIVE_SPEED, 11, 0);
+
+        //turn left and drive towards wall
         gyroTurn(TURN_SPEED, 75);
         gyroHold(TURN_SPEED, 75, .5);
         gyroDrive(DRIVE_SPEED, 36, 75);
-        gyroTurn(TURN_SPEED, 135);
-        gyroHold(TURN_SPEED, 135, .5);
-        gyroDrive(DRIVE_SPEED, 15, 135);
 
+        //turn towards depot and claim
+        gyroTurn(TURN_SPEED, -45);
+        gyroHold(TURN_SPEED, -45, .5);
+        gyroDrive(DRIVE_SPEED, 25, -45);
+        //robot.manipArm.setTargetPosition();
+        robot.frontAcc.setDirection(Servo.Direction.FORWARD);
+        robot.backAcc.setDirection(Servo.Direction.REVERSE);
+
+        //back into crater
+        gyroDrive(DRIVE_SPEED, -60, -45);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

@@ -59,6 +59,9 @@ public class HardwareDesmondBot
     public DcMotor liftArm = null;
     public DcMotor manipArm = null;
     public Servo latch = null;
+    public Servo hangLatch = null;
+    public Servo frontAcc = null;
+    public Servo backAcc = null;
     //public DcMotor  frontArm     = null;
 
     public static final double ARM_UP_POWER    =  0.45 ;
@@ -84,6 +87,9 @@ public class HardwareDesmondBot
         liftArm = hwMap.get(DcMotor.class, "lift_arm");
         manipArm = hwMap.get(DcMotor.class, "manip_arm");
         latch = hwMap.get(Servo.class, "latch");
+        hangLatch = hwMap.get(Servo.class, "hangLatch");
+        frontAcc = hwMap.get(Servo.class, "frontAcc");
+        backAcc = hwMap.get(Servo.class, "backAcc");
         //frontArm    = hwMap.get(DcMotor.class, "front_arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
