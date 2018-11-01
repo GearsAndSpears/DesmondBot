@@ -128,7 +128,7 @@ public class DesmondDrive extends LinearOpMode {
             if(hanging){
                 robot.liftArm.setMode(RUN_TO_POSITION);
                 robot.liftArm.setTargetPosition(0);
-                robot.liftArm.setPower(0.75);
+                robot.liftArm.setPower(1.0);
             }
             else{
                 robot.liftArm.setMode(RUN_USING_ENCODER);
@@ -136,7 +136,18 @@ public class DesmondDrive extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
 
+            robot.manipArm.setMode(RUN_USING_ENCODER);
             robot.manipArm.setPower(gamepad2.left_stick_y);
+
+            if(gamepad2.left_trigger>0.5){
+                robot.frontServo.setPower(1);
+                robot.frontServo.setPower(1);
+            }
+
+            if(gamepad2.right_trigger>0.5){
+                robot.frontServo.setPower(0);
+                robot.frontServo.setPower(0);
+            }
 
 
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
