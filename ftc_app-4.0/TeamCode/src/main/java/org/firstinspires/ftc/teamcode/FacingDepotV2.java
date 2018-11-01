@@ -273,7 +273,6 @@ public class FacingDepotV2 extends LinearOpMode {
         gyroTurn(TURN_SPEED, -45);
         gyroHold(TURN_SPEED, -45, .5);
         gyroDrive(DRIVE_SPEED, 25, -45);
-        //robot.manipArm.setTargetPosition();
         robot.frontAcc.setDirection(Servo.Direction.FORWARD);
         robot.backAcc.setDirection(Servo.Direction.REVERSE);
 

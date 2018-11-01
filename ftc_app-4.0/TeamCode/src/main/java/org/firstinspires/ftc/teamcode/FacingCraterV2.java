@@ -40,6 +40,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -270,7 +271,8 @@ public class FacingCraterV2 extends LinearOpMode {
         //face depot and claim
         gyroTurn(TURN_SPEED, 135);
         gyroHold(TURN_SPEED, 135, .5);
-
+        robot.frontAcc.setDirection(Servo.Direction.FORWARD);
+        robot.backAcc.setDirection(Servo.Direction.REVERSE);
 
         //back into crater
         gyroDrive(DRIVE_SPEED, -35, 135);
