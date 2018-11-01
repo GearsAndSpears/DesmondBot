@@ -30,6 +30,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.Dogeforia;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -39,13 +41,20 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 
 /**
@@ -87,7 +96,6 @@ public class FacingDepotV2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime      runtime  = new ElapsedTime();
-    GoldAlignDetector detector = new GoldAlignDetector();
 
     private HardwareDesmondBot robot   = new HardwareDesmondBot();   // Use a Pushbot's hardware
     private BNO055IMU imu;                    // Additional Gyro device
@@ -111,15 +119,57 @@ public class FacingDepotV2 extends LinearOpMode {
     private static final double     P_TURN_COEFF            = 0.05;     // Larger is more responsive, but also less stable
     private static final double     P_DRIVE_COEFF           = 0.05;     // Larger is more responsive, but also less stable
 
-    public void runOpMode() {
+    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+    // Vuforia variables
+    private OpenGLMatrix lastLocation = null;
+    boolean targetVisible;
+    Dogeforia vuforia;
+    WebcamName webcamName;
+    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
+    // DogeCV detector
+    GoldAlignDetector detector;
+
+
+    public void runOpMode() {
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        // Vuforia licence key
+        parameters.vuforiaLicenseKey = "AasL0yz/////AAABmUXduuOCnUs3rbkNa5olSJck+3OMQH4EkfgqX+kR11uOTJnoaq+7XtGOEoJe29YGQ4B0yRUKt+Cj7fiQJEb3iSrGHJOVOpq2XIFNL+W5QlONzDQzrCjDnJm8ZrXy3AniA14eTXNZiPUjXBR1WTE7CcVLFjRlMUwvIm46hS1ZnRncjBhtKlOA0AsfNmubGCVcX06dOMeI42fuCrV+eI0HxYscVk9WK6yKLSTaS44Yh9I6tsQvRFs19gW5xyiUOozpU2pRT52gGnoi85MnJO3SpBHrIKL17aYlnAFKZPBUGdM7hMLX15VgLiIMW72bfqj9YI4p7MwJFps0TbkjKZng0fJtaUiuGkThvSDOKz0/QQOt";
+        parameters.fillCameraMonitorViewParent = true;
+
+        // Set camera name for Vuforia config
+        parameters.cameraName = webcamName;
+
+        // Create Dogeforia object
+        vuforia = new Dogeforia(parameters);
+        vuforia.enableConvertFrameToBitmap();
+
+        // Initialize the detector
+        detector = new GoldAlignDetector();
+        detector.init(hardwareMap.appContext,CameraViewDisplay.getInstance(), 0, true);
+        detector.useDefaults();
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.downscale = 0.8;
+
+        // Set the detector
+        vuforia.setDogeCVDetector(detector);
+        vuforia.enableDogeCV();
+        vuforia.showDebug();
+        vuforia.start();
+
+        BNO055IMU.Parameters IMUparameters = new BNO055IMU.Parameters();
+        IMUparameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        IMUparameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        IMUparameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        IMUparameters.loggingEnabled      = true;
+        IMUparameters.loggingTag          = "IMU";
+        IMUparameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         /*
          * Initialize the standard drive system variables.
@@ -127,7 +177,7 @@ public class FacingDepotV2 extends LinearOpMode {
          */
         robot.init(hardwareMap);
             imu = hardwareMap.get(BNO055IMU.class, "imu");
-            imu.initialize(parameters);
+            imu.initialize(IMUparameters);
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
         detector.useDefaults();
         detector.alignSize = 300;
