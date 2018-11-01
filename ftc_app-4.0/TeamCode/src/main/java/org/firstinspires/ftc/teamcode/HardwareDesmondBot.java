@@ -92,10 +92,10 @@ public class HardwareDesmondBot
 
         frontServo = hwMap.get(CRServo.class, "frontAcc");
         backServo = hwMap.get(CRServo.class, "backAcc");
-        //frontArm    = hwMap.get(DcMotor.class, "front_arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        liftArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftArm.setDirection(DcMotor.Direction.FORWARD);
+        manipArm.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -103,8 +103,8 @@ public class HardwareDesmondBot
         liftArm.setPower(0);
         manipArm.setPower(0);
 
-        frontServo.setPower(0);
-        backServo.setPower(0);
+        frontServo.setPower(0.5);
+        backServo.setPower(0.5);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
