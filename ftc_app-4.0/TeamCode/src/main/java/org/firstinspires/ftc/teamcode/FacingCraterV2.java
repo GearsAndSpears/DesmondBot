@@ -214,9 +214,6 @@ public class FacingCraterV2 extends LinearOpMode {
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-        robot.liftArm.setMode(RUN_TO_POSITION);
-        robot.liftArm.setTargetPosition(0);
-        robot.liftArm.setPower(0.75);
 
         telemetry.addData(">", "Robot Ready.");
         telemetry.update();
@@ -228,6 +225,11 @@ public class FacingCraterV2 extends LinearOpMode {
         // Put a hold after each turn
 
         //G&S: Insert Landing Code Here
+        robot.liftArm.setMode(RUN_TO_POSITION);
+        robot.liftArm.setTargetPosition(0);
+        robot.liftArm.setPower(0.75);
+
+        robot.hangLatch.setPosition(1.0);
 
         robot.liftArm.setTargetPosition(3300);
         robot.liftArm.setPower(0.5);
@@ -271,6 +273,7 @@ public class FacingCraterV2 extends LinearOpMode {
         //face depot and claim
         gyroTurn(TURN_SPEED, 135);
         gyroHold(TURN_SPEED, 135, .5);
+        gyroDrive(DRIVE_SPEED, 25, 135);
         robot.frontAcc.setDirection(Servo.Direction.FORWARD);
         robot.backAcc.setDirection(Servo.Direction.REVERSE);
 

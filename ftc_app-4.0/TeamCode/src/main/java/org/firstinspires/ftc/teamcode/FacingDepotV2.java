@@ -157,6 +157,8 @@ public class FacingDepotV2 extends LinearOpMode {
         detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
         //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
         detector.downscale = 0.8;
+        detector.alignSize = 300;
+
 
         // Set the detector
         vuforia.setDogeCVDetector(detector);
@@ -179,10 +181,6 @@ public class FacingDepotV2 extends LinearOpMode {
         robot.init(hardwareMap);
             imu = hardwareMap.get(BNO055IMU.class, "imu");
             imu.initialize(IMUparameters);
-        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-        detector.useDefaults();
-        detector.alignSize = 300;
-        detector.enable();
 
         // Ensure the robot it stationary, then reset the encoders and calibrate the gyro.
         robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -272,7 +270,7 @@ public class FacingDepotV2 extends LinearOpMode {
         //turn towards depot and claim
         gyroTurn(TURN_SPEED, -45);
         gyroHold(TURN_SPEED, -45, .5);
-        gyroDrive(DRIVE_SPEED, 25, -45);
+        gyroDrive(DRIVE_SPEED, 35, -45);
         robot.frontAcc.setDirection(Servo.Direction.FORWARD);
         robot.backAcc.setDirection(Servo.Direction.REVERSE);
 
