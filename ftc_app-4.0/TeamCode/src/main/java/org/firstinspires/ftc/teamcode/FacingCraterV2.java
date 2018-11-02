@@ -215,8 +215,8 @@ public class FacingCraterV2 extends LinearOpMode {
 
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-
+        robot.manipArm.setTargetPosition(0);
+        robot.hangLatch.setPosition(0);
         telemetry.addData(">", "Robot Ready.");
         telemetry.update();
 
@@ -251,7 +251,6 @@ public class FacingCraterV2 extends LinearOpMode {
 
         sleep(1000);
 
-       //Sample
         gyroTurn(TURN_SPEED, 0);
         gyroDrive(DRIVE_SPEED, 4, 0);
         robot.liftArm.setTargetPosition(0);

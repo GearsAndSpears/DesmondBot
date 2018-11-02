@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 
@@ -214,7 +215,8 @@ public class FacingDepotV2 extends LinearOpMode {
 
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
+        robot.manipArm.setTargetPosition(0);
+        robot.hangLatch.setPosition(0);
 
         waitForStart();
 
@@ -223,11 +225,14 @@ public class FacingDepotV2 extends LinearOpMode {
         // Put a hold after each turn
 
         //G&S: Landing Code Here
-        robot.liftArm.setMode(RUN_TO_POSITION);
-        robot.liftArm.setTargetPosition(0);
-        robot.liftArm.setPower(0.75);
+        robot.liftArm.setMode(RUN_USING_ENCODER);
+        robot.liftArm.setPower(-0.75);
+
+        sleep(500);
 
         robot.hangLatch.setPosition(1.0);
+
+        sleep(500);
 
         robot.liftArm.setTargetPosition(3300);
         robot.liftArm.setPower(0.5);
