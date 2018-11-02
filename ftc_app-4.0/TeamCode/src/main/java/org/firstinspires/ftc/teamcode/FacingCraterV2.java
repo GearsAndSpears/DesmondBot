@@ -230,7 +230,13 @@ public class FacingCraterV2 extends LinearOpMode {
         robot.liftArm.setMode(RUN_USING_ENCODER);
         robot.liftArm.setPower(-0.75);
 
+        sleep(500);
+
         robot.hangLatch.setPosition(1.0);
+
+        sleep(500);
+
+        robot.liftArm.setMode(RUN_TO_POSITION);
 
         robot.liftArm.setTargetPosition(3300);
         robot.liftArm.setPower(0.5);
@@ -275,8 +281,9 @@ public class FacingCraterV2 extends LinearOpMode {
         gyroTurn(TURN_SPEED, 135);
         gyroHold(TURN_SPEED, 135, .5);
         gyroDrive(DRIVE_SPEED, 25, 135);
-        robot.frontAcc.setDirection(Servo.Direction.FORWARD);
-        robot.backAcc.setDirection(Servo.Direction.REVERSE);
+        robot.frontServo.setPower(1);
+        robot.backServo.setPower(-1);
+
 
         //back into crater
         gyroDrive(DRIVE_SPEED, -35, 135);

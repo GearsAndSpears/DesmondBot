@@ -60,6 +60,7 @@ public class HardwareDesmondBot
     public DcMotor liftArm = null;
     public DcMotor manipArm = null;
     public Servo latch = null;
+    public Servo hangLatch = null;
 
     public CRServo frontServo = null;
     public CRServo backServo = null;
@@ -89,6 +90,7 @@ public class HardwareDesmondBot
         liftArm = hwMap.get(DcMotor.class, "lift_arm");
         manipArm = hwMap.get(DcMotor.class, "manip_arm");
         latch = hwMap.get(Servo.class, "latch");
+        hangLatch = hwMap.get(Servo.class, "hangLatch");
 
         frontServo = hwMap.get(CRServo.class, "frontAcc");
         backServo = hwMap.get(CRServo.class, "backAcc");
