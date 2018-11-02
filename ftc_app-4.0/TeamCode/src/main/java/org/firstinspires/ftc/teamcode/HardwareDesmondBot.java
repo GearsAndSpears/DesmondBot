@@ -92,6 +92,7 @@ public class HardwareDesmondBot
 
         frontServo = hwMap.get(CRServo.class, "frontAcc");
         backServo = hwMap.get(CRServo.class, "backAcc");
+
         leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         liftArm.setDirection(DcMotor.Direction.FORWARD);

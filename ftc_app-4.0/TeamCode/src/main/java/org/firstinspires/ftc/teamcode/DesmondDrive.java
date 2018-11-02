@@ -141,17 +141,17 @@ public class DesmondDrive extends LinearOpMode {
 
             if(gamepad2.x){
                 robot.frontServo.setPower(1);
-                robot.frontServo.setPower(-1);
+                robot.backServo.setPower(-1);
             }
 
             if(gamepad2.y){
                 robot.frontServo.setPower(-1);
-                robot.frontServo.setPower(1);
+                robot.backServo.setPower(1);
             }
 
             if(gamepad2.b){
                 robot.frontServo.setPower(0);
-                robot.frontServo.setPower(0);
+                robot.backServo.setPower(0);
             }
 
 
