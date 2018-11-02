@@ -215,8 +215,15 @@ public class FacingDepotV2 extends LinearOpMode {
 
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
+        robot.manipArm.setMode(RUN_TO_POSITION);
         robot.manipArm.setTargetPosition(0);
+        robot.manipArm.setPower(0.3);
+
         robot.hangLatch.setPosition(0);
+
+        telemetry.addData(">", "Robot Ready.");
+        telemetry.update();
 
         waitForStart();
 
